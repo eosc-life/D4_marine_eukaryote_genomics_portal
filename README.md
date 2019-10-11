@@ -23,3 +23,7 @@ EOSC-Life Demonstrator 4
    - [ORCAE](orcae)
  - RoadMap
 
+
+## Meeting minutes
+ - [2019-08-28](meeting_minutes/2019-08-28.md)
+ 
