@@ -14,13 +14,16 @@ EOSC-Life Demonstrator 4
  - VIB-UGent - ELIXIR-BE (WP2)
    - **Lieven Sterck**
    - Frederik Coppens
-
+ - VLIZ - EMBRC (WP1)
+   - **Katrina Exter**
+   - Cedric Decruw
 
 ## PLAN
  - Components
    - [Demonstrator D4](demonstrator/)
    - [Galaxy Genome Annotation (GGA)](gga/)
    - [ORCAE](orcae)
+   - Visualiser for a data catalogue, and a data management system for traceability of provenance metadata
  - RoadMap
 
 
