@@ -13,6 +13,7 @@ Alignment of the genomes and extraction of synteny relationships
 Visualization of the synteny blocks and selection of possible missing annotation
 Injection of the new potential annotation on the ORCAE portal
 
+![](../_images/flowchart_wf.png)
 
 ### How do you currently run your workflow? e.g.
 It’s not currently a documented workflow, but we run the pipeline on a computational cluster
