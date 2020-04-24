@@ -28,6 +28,7 @@ class GeneComp:
         self.q_outstart = qstart+self.otbeg
         self.q_outend = qstart+self.otend
         self.genelist = []
+        self.qstart = qstart
         if extract:
             self.fastafile = extract[0]
             self.fastaout = extract[1]
@@ -36,42 +37,42 @@ class GeneComp:
 
     def is_equal(self):
         if (self.otbeg - self.tol) <= self.ccbeg <= (self.otbeg + self.tol) and (self.otend - self.tol) <= self.ccend <= (self.otend + self.tol):
-            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{qstart}\t.\tID={self.ccname};Note=confirmed"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=confirmed"
             return self.out
 
     def is_shorter(self):
         if (self.otbeg + self.tol) < self.ccbeg and (self.otend - self.tol) > self.ccend:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{qstart}\t.\tID={self.ccname};Note=shorter"
+            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter"
             return self.out
         elif (self.otbeg - self.tol) <= self.ccbeg <= (self.otbeg + self.tol) and (self.otend - self.tol) > self.ccend:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{qstart}\t.\tID={self.ccname};Note=shorter_right"
+            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter_right"
             return self.out
         elif (self.otbeg + self.tol) < self.ccbeg and (self.otend - self.tol) <= self.ccend <= (self.otend + self.tol):
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{qstart}\t.\tID={self.ccname};Note=shorter_left"
+            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter_left"
             return self.out
 
     def is_longer(self):
         if (self.otbeg - self.tol) > self.ccbeg and (self.otend + self.tol) < self.ccend:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{qstart}\t.\tID={self.ccname};Note=longer"
+            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer"
             return self.out
         elif (self.otbeg - self.tol) <= self.ccbeg <= (self.otbeg + self.tol) and (self.otend + self.tol) < self.ccend:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{qstart}\t.\tID={self.ccname};Note=longer_right"
+            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer_right"
             return self.out
         elif (self.otbeg - self.tol) > self.ccbeg and (self.otend - self.tol) <= self.ccend <= (self.otend + self.tol):
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{qstart}\t.\tID={self.ccname};Note=longer_left"
+            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer_left"
             return self.out
 
     def is_offset(self):
         if (self.otbeg + self.tol) < self.ccbeg < (self.otend - self.tol) and (self.otend + self.tol) < self.ccend:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{qstart}\t.\tID={self.ccname};Note=offset_right"
+            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=offset_right"
             return self.out
         if (self.otbeg - self.tol) > self.ccbeg and (self.otbeg - self.tol) < self.ccend < self.otend + self.tol:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{qstart}\t.\tID={self.ccname};Note=offset_left"
+            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=offset_left"
             return self.out
 
     def is_different(self):
         if self.otbeg - self.tol > self.ccend or self.otend + self.tol < self.otbeg:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{qstart}\t.\tID={self.ccname};Note=different"
+            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=different"
             return self.out
 
     def extract_fasta(self):
