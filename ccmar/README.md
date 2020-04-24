@@ -1,6 +1,6 @@
 # Demonstrator Workflow
 
-Example of the steps that can be part of the Galaxy Workflow
+This is an example of the steps that can be part of the Galaxy Workflow.
 
 To run this example you need two genomes in fasta format and their corresponding GFF files.
 Note:
