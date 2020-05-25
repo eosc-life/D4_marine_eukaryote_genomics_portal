@@ -267,7 +267,8 @@ def main(args):
     # put the content of the DB in objects
     with open(args.aln) as maftab:
         for line in maftab:
-            fcounter += check_position(line, query_db, target_db)
+            if line[0] != "#":
+                fcounter += check_position(line, query_db, target_db)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = '''Tool to extract genes coordinates from a whole genome alignent.
