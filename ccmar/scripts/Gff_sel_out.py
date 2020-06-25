@@ -1,10 +1,10 @@
 #!/usr/bin/python3 
 
-import gffutils
-from Bio import SeqIO
-from collections import defaultdict
 import argparse
 import os
+import gffutils
+from Bio import SeqIO
+#from collections import defaultdict
 #import sys, getopt
 
 ### TODO: add strand control
@@ -42,37 +42,37 @@ class GeneComp:
 
     def is_shorter(self):
         if (self.otbeg + self.tol) < self.ccbeg and (self.otend - self.tol) > self.ccend:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter"
             return self.out
         elif (self.otbeg - self.tol) <= self.ccbeg <= (self.otbeg + self.tol) and (self.otend - self.tol) > self.ccend:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter_right"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter_right"
             return self.out
         elif (self.otbeg + self.tol) < self.ccbeg and (self.otend - self.tol) <= self.ccend <= (self.otend + self.tol):
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter_left"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter_left"
             return self.out
 
     def is_longer(self):
         if (self.otbeg - self.tol) > self.ccbeg and (self.otend + self.tol) < self.ccend:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer"
             return self.out
         elif (self.otbeg - self.tol) <= self.ccbeg <= (self.otbeg + self.tol) and (self.otend + self.tol) < self.ccend:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer_right"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer_right"
             return self.out
         elif (self.otbeg - self.tol) > self.ccbeg and (self.otend - self.tol) <= self.ccend <= (self.otend + self.tol):
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer_left"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer_left"
             return self.out
 
     def is_offset(self):
         if (self.otbeg + self.tol) < self.ccbeg < (self.otend - self.tol) and (self.otend + self.tol) < self.ccend:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=offset_right"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=offset_right"
             return self.out
         if (self.otbeg - self.tol) > self.ccbeg and (self.otbeg - self.tol) < self.ccend < self.otend + self.tol:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=offset_left"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=offset_left"
             return self.out
 
     def is_different(self):
         if self.otbeg - self.tol > self.ccend or self.otend + self.tol < self.otbeg:
-            self.out =  f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=different"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=different"
             return self.out
 
     def extract_fasta(self):
@@ -183,7 +183,26 @@ def diff_gene(query_genes, target_genes, dstart, dend, qstart, qend, query_db):
                         algene.extract_fasta()
 
 
+def gff_gene_check(GffName, db_name, memory=0):
+    # The IDs on the GFFs must be unique. Moreover, because only the gene
+    # information are needed, all the other information must be removed
+    # from the GFFs.
+    tempgff=""
+    for line in open(GffName):
+        if line[0] != "#":
+            if line.split()[2] == "gene":
+                tempgff+=line
 
+        else:
+            tempgff+=line
+    
+    if memory:
+        # Write the db in memory and return it as variable so it can be used
+        # as subclass of _DBCreator
+        dbout = gffutils.create_db(tempgff, ":memory:", from_string=True)
+        return dbout
+    else:
+        gffutils.create_db(tempgff, db_name, from_string=True)
 
 def check_strand(start,leng,strand):
     if strand == "+":
@@ -240,14 +259,22 @@ def main(args):
     db_target_name=args.targetGff + "_db"
 
     if args.force_database:
+        # remove the database if required by user
         os.remove(db_query_name)
         os.remove(db_target_name)
 
     if args.use_query_database:
+        # use the db passed by the user
         query_db = gffutils.FeatureDB(args.use_query_database)
     else:
-        gffutils.create_db(args.queryGff, db_query_name)
-        query_db = gffutils.FeatureDB(db_query_name)
+        #create the db
+        #gffutils.create_db(args.queryGff, db_query_name)
+        qdbout = gff_gene_check(args.queryGff, db_query_name, args.memory)
+
+        if args.memory:
+            query_db = gffutils.FeatureDB(qdbout.dbfn)
+        else:
+            query_db = gffutils.FeatureDB(db_query_name)
         # except ValueError:
         #     print("Please check your GFF file")
         # except:
@@ -257,8 +284,11 @@ def main(args):
     if args.use_target_database:
         target_db = gffutils.FeatureDB(args.use_target_database)
     else:
-        gffutils.create_db(args.targetGff, db_target_name)
-        target_db = gffutils.FeatureDB(db_target_name)
+        tdbout = gff_gene_check(args.targetGff, db_target_name, args.memory)
+        if args.memory:
+            target_db = gffutils.FeatureDB(tdbout.dbfn)
+        else:
+            target_db = gffutils.FeatureDB(db_target_name)
         # except ValueError:
         #     print("Please check your GFF file")if "all" in args.verbosity:
         # except:
@@ -276,20 +306,22 @@ if __name__ == '__main__':
     parser.add_argument('aln', help='alignment file in TAB format. The suggested way to obtain it is to run Last and\
                                      than convert the file from MAF to TAB with maf-convert')
     parser.add_argument('queryGff',
-                        help='''Gff file of the query organism. The gene IDs in the GFF must be unique. 
+                        help='''Gff file of the query organism. The gene IDs in the GFF must be unique.
                         To solve the problem please extract only the "gene" lines. Try to format
                         the file with AWK: awk '{if ($3==\"gene\") print $0}' GFFfile''')
     parser.add_argument('targetGff',
                         help='''Gff file of the "target" organism. The gene IDs in the GFF must be unique.
                         To solve the problem please extract only the "gene" lines as explained in queryGff''')
-    parser.add_argument("-uq","--use-query-database",
+    parser.add_argument("-uq", "--use-query-database",
                         help='''Use this parament if you already have a query gffutils formatted database or
                                 if it\'s not the first time you run this script''', type=str)
-    parser.add_argument("-ut","--use-target-database",
+    parser.add_argument("-ut", "--use-target-database",
                         help='''Use this parament if you already have a target gffutils formatted database or
                                 if it\'s not the first time you run this script''', type=str)
     parser.add_argument("-fd", "--force-database", help="delete old gffutils databases and create new ones", action='store_true')
-    parser.add_argument("-e","--extract",
+    parser.add_argument("-m", "--memory", help='''create an in-memory database. This option can't be used with the other DB options.
+                                probably usefull in Galaxy integration''', action='store_true' )
+    parser.add_argument("-e", "--extract",
                         help='''Extract the fasta sequence of the new suggested gene. It takes two argument: the fasta file
                         of the genome and the name of the output file. This will slow down the process A LOT.''', nargs=2, type=str)
     #parser.add_argument("-es", "--extract_stout", help='Like -e but it will print the result in the standard output. FASTER than -e. It need the fasta file', type=str)

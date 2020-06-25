@@ -51,16 +51,7 @@ Covert the maf output in txt.
 ```
 Again, 1e5 it's only an example
 
-### 6. GFF cleaning
-
-The IDs on the GFFs must be unique. Moreover, because only the gene information are needed, all the other information must
-be removed from the GFFs.
- ```bash
-	awk -i inplace'{if ($3=="gene") print $0}' *.GFF
-```
-In some cases you want to run awk without the __-i inplace__ parameter and redirect the output in a new file.
-
-### 7. Writing the GFF
+### 6. Writing the GFF
 
 Run the script called __Gff_sel_out.py__ that is in the scripts folder:
 
