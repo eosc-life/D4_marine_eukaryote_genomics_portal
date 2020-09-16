@@ -30,4 +30,5 @@ EOSC-Life Demonstrator 4
 ## Meeting minutes
  - [2019-08-28](meeting_minutes/2019-08-28.md)
  - [2019-10-25](meeting_minutes/2019-10-25.md)
+ - [2019-10-28](meeting_minutes/2019-10-28.md)
  
