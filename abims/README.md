@@ -4,12 +4,12 @@ In accordance with the workflow set up by CCMAR, ABiMS has put online the variou
 
 ## Workflow steps
 
-1. Repeatmasker
+**1. Repeatmasker**
 
 [Repeatmasker](http://www.repeatmasker.org/) is accessible to mask repetitive regions of a genome.
 
 
-2. Last
+**2. Last**
 
 5 commands of [Last](http://last.cbrc.jp/) package have been wrapped as Galaxy tools :
 
@@ -24,7 +24,7 @@ In accordance with the workflow set up by CCMAR, ABiMS has put online the variou
 - [maf-convert](http://last.cbrc.jp/doc/maf-convert.html) : to convert lastal maf output file in a tabular file.
 
 
-3. Synteny GFF align
+**3. Synteny GFF align**
 
 To complete the workflow, we also wrapped the CCMAR tool that transfer annotations between related species using genome synteny relationship.
 
