@@ -24,7 +24,7 @@ In accordance with the workflow set up by CCMAR, ABiMS has put online the variou
 - [maf-convert](http://last.cbrc.jp/doc/maf-convert.html) : to convert lastal maf output file in a tabular file.
 
 
-**3. Synteny GFF align**
+**3. Synteny GFF align [In progress]**
 
 To complete the workflow, we also wrapped the CCMAR tool that transfer annotations between related species using genome synteny relationship.
 
@@ -34,8 +34,22 @@ To complete the workflow, we also wrapped the CCMAR tool that transfer annotatio
 A docker Galaxy stable containing the workflow tools is also available. You can find it on https://github.com/abims-sbr/D4_marine_eukaryote_genomics_portal_docker.
 
 
-# Expectations : GGA in the cloud
+# Expectations : GGA in the cloud [In progress]
 
 We plan to provide the annotation pipeline and the GGA environmentavailable through the European Open Science Cloud. We are currently developing a script to automatically deploy the GGA containers and load data into them.
 
 Our approach : https://docs.google.com/presentation/d/1xY6DrAX-3eAjke7emOS8BGr_HQF9CsoBoSa5_O2d3Mc/edit?usp=sharing
+
+
+# Project progress
+
+## Done
+
+- RepeatMasker installation
+- Last wrapping in Galaxy
+- Docker Galaxy stable containing the workflow tools
+
+## In progress
+
+- CCMAR tool wrapping in Galaxy
+- Cloudification of GGA
