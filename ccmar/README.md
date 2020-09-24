@@ -6,7 +6,7 @@ To run this example you need two genomes in fasta format and their corresponding
 Note:
   - The query genome is the genome you want to "annotate"
   - The target genome is the genome you want to use to annotate your genome
-  - This is just a small and fast example. Last has A LOT of different that can be setted to improve the results
+  - This is just a small and fast example. Last has A LOT of different parameters that can be setted to improve the results
   - The computational time is just to have an idea on how long it should take. It can vary a lot.
 
 
