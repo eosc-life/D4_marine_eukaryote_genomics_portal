@@ -1,5 +1,9 @@
 #!/usr/bin/python3 
 
+
+### OLD VERSION. IT WILL BE REMOVED IN THE FUTURE ###
+
+
 import argparse
 import os
 import gffutils
