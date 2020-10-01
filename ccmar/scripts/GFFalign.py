@@ -10,7 +10,7 @@ class GeneComp:
     # This cass aims to discover the position of the genes in the alignment
     # and to extract informations on the genes characteristics
 
-    def __init__(self, ccgene, qstart, qend, otgene, dstart, dend, extract, tol, output=None):
+    def __init__(self, ccgene, qstart, qend, otgene, dstart, dend, extract, tol, gattr, output=None):
         # d* / ot* are the db result, q*  / cc the query
         # gene are the gene from maf-tab file 
         # start, end are the coordinates  '''
@@ -30,45 +30,46 @@ class GeneComp:
             self.fastaout = extract[1]
         self.output = output
         self.out = ""
+        self.gattr = f"New_annotation='{gattr}'"
 
     def is_equal(self):
         if (self.otbeg - self.tol) <= self.ccbeg <= (self.otbeg + self.tol) and (self.otend - self.tol) <= self.ccend <= (self.otend + self.tol):
-            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=confirmed"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};{self.gattr};Note=confirmed"
             return self.out
 
     def is_shorter(self):
         if (self.otbeg + self.tol) < self.ccbeg and (self.otend - self.tol) > self.ccend:
-            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};{self.gattr};Note=shorter"
             return self.out
         elif (self.otbeg - self.tol) <= self.ccbeg <= (self.otbeg + self.tol) and (self.otend - self.tol) > self.ccend:
-            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter_right"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};{self.gattr};Note=shorter_right"
             return self.out
         elif (self.otbeg + self.tol) < self.ccbeg and (self.otend - self.tol) <= self.ccend <= (self.otend + self.tol):
-            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=shorter_left"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};{self.gattr};Note=shorter_left"
             return self.out
 
     def is_longer(self):
         if (self.otbeg - self.tol) > self.ccbeg and (self.otend + self.tol) < self.ccend:
-            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};{self.gattr};Note=longer"
             return self.out
         elif (self.otbeg - self.tol) <= self.ccbeg <= (self.otbeg + self.tol) and (self.otend + self.tol) < self.ccend:
-            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer_right"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};{self.gattr};Note=longer_right"
             return self.out
         elif (self.otbeg - self.tol) > self.ccbeg and (self.otend - self.tol) <= self.ccend <= (self.otend + self.tol):
-            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=longer_left"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};{self.gattr};Note=longer_left"
             return self.out
 
     def is_offset(self):
         if (self.otbeg + self.tol) < self.ccbeg < (self.otend - self.tol) and (self.otend + self.tol) < self.ccend:
-            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=offset_right"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};{self.gattr};Note=offset_right"
             return self.out
         if (self.otbeg - self.tol) > self.ccbeg and (self.otbeg - self.tol) < self.ccend < self.otend + self.tol:
-            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=offset_left"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};{self.gattr};Note=offset_left"
             return self.out
 
     def is_different(self):
         if self.otbeg - self.tol > self.ccend or self.otend + self.tol < self.otbeg:
-            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};Note=different"
+            self.out = f"{self.ccname}\tprediction\tgene\t{self.q_outstart}\t{self.q_outend}\t.\t{self.qstart}\t.\tID={self.ccname};{self.gattr};Note=new"
             return self.out
 
     def extract_fasta(self):
@@ -119,12 +120,13 @@ def diff_gene(query_genes, target_genes, dstart, dend, qstart, qend, query_db):
     else:
         tol = 30
 
+
     for otgene in target_genes:
-    #print(args.use_query_database)
-       # otbeg = int(otgene.start) - dstart
-       # otend = int(otgene.end) - dstart
+        # gattr is a variable created to store the  the annotation of the target gene. 
+        # It will be use to suggest a functional annotation
+        gattr = str(otgene).split("\t")[-1]
         for ccgene in query_genes:
-            algene = GeneComp(ccgene, qstart, qend, otgene, dstart, dend, extract, tol)
+            algene = GeneComp(ccgene, qstart, qend, otgene, dstart, dend, extract, tol, gattr)
             if "new" in args.verbosity or "all" in args.verbosity:
                 if algene.is_different():
                     algene_out = algene.is_different()
@@ -228,17 +230,18 @@ def check_position(line, query_db,target_db):
 
     #counter
     d_counter = 0
-
+    
     # lists of gene within the coordinates
     target_genes = [ gene for gene in list(target_db.region(region=(dname, dstart, dend), completely_within=True))]
     query_genes = [ gene for gene in list(query_db.region(region=(qname, qstart, qend), completely_within=True))]
 
-
-
     if len(target_genes):
     # and len(query_genes):
-        if len(target_genes) >= len(query_genes): # the number of genes in the aligned area must be bigger in the target (?)
-            diff_gene(query_genes, target_genes, dstart, dend, qstart, qend, query_db)
+######
+# PER PROVARE HO TOLTO QUESTO, DA CONTROLLARE 
+######
+        #if len(target_genes) >= len(query_genes): # the number of genes in the aligned area must be bigger in the target (?)
+        diff_gene(query_genes, target_genes, dstart, dend, qstart, qend, query_db)
 
 
     if d_counter>=1:
@@ -303,12 +306,9 @@ if __name__ == '__main__':
     parser.add_argument('aln', help='alignment file in TAB format. The suggested way to obtain it is to run Last and\
                                      than convert the file from MAF to TAB with maf-convert')
     parser.add_argument('queryGff',
-                        help='''Gff file of the query organism. The gene IDs in the GFF must be unique.
-                        To solve the problem please extract only the "gene" lines. Try to format
-                        the file with AWK: awk '{if ($3==\"gene\") print $0}' GFFfile''')
+                        help='''Gff file of the query organism. The gene IDs in the GFF must be unique.''')
     parser.add_argument('targetGff',
-                        help='''Gff file of the "target" organism. The gene IDs in the GFF must be unique.
-                        To solve the problem please extract only the "gene" lines as explained in queryGff''')
+                        help='''Gff file of the "target" organism. The gene IDs in the GFF must be unique.''')
     parser.add_argument("-uq", "--use-query-database",
                         help='''Use this parament if you already have a query gffutils formatted database or
                                 if it\'s not the first time you run this script''', type=str)
